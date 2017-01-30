@@ -1,5 +1,9 @@
+import org.junit.Before;
 import org.junit.Test;
 import org.whatpull.mime.annotation.FieldLog;
+import org.whatpull.mime.annotation.FieldLogAnnotator;
+
+import javax.annotation.PostConstruct;
 
 /**
  * Created by yeonsu on 2017-01-30
@@ -11,9 +15,15 @@ public class mimeTest {
     @FieldLog
     private String name;
 
+    @Before
+    public void init() throws NoSuchFieldException {
+        FieldLogAnnotator.setFieldLog(mimeTest.class);
+    }
+
     @Test
     public void mime() {
         name = "테스트";
+        System.out.println(name);
     }
 
 }
