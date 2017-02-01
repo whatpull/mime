@@ -1,11 +1,11 @@
 package org.whatpull.mime.scheduled;
 
-import org.apache.commons.lang3.ObjectUtils;
-
 import java.util.Date;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
+ * Schedule Task Job
+ * TODO. 시드도메인 -> 하위 URL 획득
  * Created by yeonsu on 2017-01-31
  * since 2017-01-31
  */

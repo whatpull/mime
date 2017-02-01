@@ -1,6 +1,6 @@
 package org.whatpull.mime;
 
-import org.whatpull.mime.annotation.Deamon;
+import org.whatpull.mime.annotation.Daemon;
 import org.whatpull.mime.annotation.ScheduledAnnotator;
 import org.whatpull.mime.util.Scanner;
 
@@ -15,12 +15,11 @@ public class MimeApplication {
 
     /**
      * 실행 메인스레드
-     * TODO. 지정 도메인 -> 서브도메인을 획득
      * @param args 파라미터
      */
     public static void main(String[] args) {
         try {
-            Set<Class<?>> classes = Scanner.getClasses(PACKAGE, Deamon.class);
+            Set<Class<?>> classes = Scanner.getClasses(PACKAGE, Daemon.class);
             for(Class clazz : classes) {
                 // 스케줄 어노테이션 셋팅
                 ScheduledAnnotator.setScheduled(clazz);
