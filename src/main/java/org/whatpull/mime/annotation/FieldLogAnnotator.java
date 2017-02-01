@@ -18,7 +18,7 @@ public class FieldLogAnnotator {
             Annotation annotation = name.getAnnotation(FieldLog.class);
 
             if(ObjectUtils.allNotNull(annotation)) {
-                System.out.println("Time : " + String.valueOf(System.currentTimeMillis()));
+
             }
         }
     }
