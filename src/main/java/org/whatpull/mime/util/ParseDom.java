@@ -14,8 +14,10 @@ public class ParseDom {
     private static Document document;
 
     /**
-     * TODO 크롤링 테스트
+     * 공통모듈을 이용하여 유틸을 작업하였습니다.
      * Parse Document Function
+     * TODO [이연수]메타데이터 조회 필요
+     *
      * @return title
      * @throws Exception
      */

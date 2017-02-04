@@ -6,11 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by yeonsu on 2017-01-30
- * since 2017-01-30
+ * Daemon Annotation
+ * Created by yeonsu on 2017-01-31
+ * since 2017-01-31
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface FieldLog {
+public @interface Daemon {
 
 }

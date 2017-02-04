@@ -5,12 +5,18 @@ import org.whatpull.mime.scheduled.ScheduledJob;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Timer;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Created by user on 2017-01-31.
+ * Scheduled Annotation Actor
+ * Created by yeonsu on 2017-01-31
+ * since 2017-01-31
  */
 public class ScheduledAnnotator {
+
+    private final static int DELAY = 1;                 // 지연시간(초)
+    private final static int PERIOD = 3;                // 주기(초)
 
     public static void setScheduled(Class<?> clazz) throws NoSuchMethodException {
         Method method = clazz.getMethod("mime", null);
@@ -19,14 +25,9 @@ public class ScheduledAnnotator {
             Annotation annotation = method.getAnnotation(Scheduled.class);
 
             if(ObjectUtils.allNotNull(annotation)) {
-                ScheduledJob job = new ScheduledJob();
-                Timer jobScheduler = new Timer(true);
-                jobScheduler.scheduleAtFixedRate(job, 1000, 3000);
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
+                ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+                ScheduledJob job = new ScheduledJob(scheduledThreadPoolExecutor);
+                scheduledThreadPoolExecutor.scheduleAtFixedRate(job, DELAY, PERIOD, TimeUnit.SECONDS);
             }
         }
     }
