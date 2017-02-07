@@ -2,6 +2,7 @@ package org.whatpull.mime;
 
 import org.whatpull.mime.annotation.Daemon;
 import org.whatpull.mime.annotation.ScheduledAnnotator;
+import org.whatpull.mime.util.AWS;
 import org.whatpull.mime.util.Scanner;
 
 import java.util.Set;
@@ -24,6 +25,9 @@ public class MimeApplication {
                 // 스케줄 어노테이션 셋팅
                 ScheduledAnnotator.setScheduled(clazz);
             }
+
+            AWS.DynamoDBInit();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
