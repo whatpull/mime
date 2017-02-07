@@ -9,7 +9,7 @@ import org.whatpull.mime.annotation.Scheduled;
 @Daemon
 public class TestAnnotation {
 
-    @Scheduled
+    @Scheduled(period = 30)
     public void mime() {
 
     }

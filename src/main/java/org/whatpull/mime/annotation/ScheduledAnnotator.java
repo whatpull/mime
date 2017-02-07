@@ -1,9 +1,7 @@
 package org.whatpull.mime.annotation;
 
-import org.apache.commons.lang3.ObjectUtils;
 import org.whatpull.mime.scheduled.ScheduledJob;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -15,21 +13,19 @@ import java.util.concurrent.TimeUnit;
  */
 public class ScheduledAnnotator {
 
-    private final static int DELAY = 1;                 // 지연시간(초)
-    private final static int PERIOD = 3;                // 주기(초)
+    private final static int INITIAL_DELAY = 10;                 // 지연시간(분)
 
     public static void setScheduled(Class<?> clazz) throws NoSuchMethodException {
-        Method method = clazz.getMethod("mime", null);
+        Method[] methods = clazz.getMethods();
 
-        if(ObjectUtils.allNotNull(method)) {
-            Annotation annotation = method.getAnnotation(Scheduled.class);
-
-            if(ObjectUtils.allNotNull(annotation)) {
+        for(Method method : methods) {
+            if(method.isAnnotationPresent(Scheduled.class)) {
+                Scheduled scheduled = method.getAnnotation(Scheduled.class);
+                int period = scheduled.period();
                 ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-                ScheduledJob job = new ScheduledJob(scheduledThreadPoolExecutor);
-                scheduledThreadPoolExecutor.scheduleAtFixedRate(job, DELAY, PERIOD, TimeUnit.SECONDS);
+                ScheduledJob job = new ScheduledJob(scheduledThreadPoolExecutor, null);
+                scheduledThreadPoolExecutor.scheduleWithFixedDelay(job, INITIAL_DELAY, period, TimeUnit.SECONDS);
             }
         }
     }
-
 }

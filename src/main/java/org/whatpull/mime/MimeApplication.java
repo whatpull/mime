@@ -27,7 +27,6 @@ public class MimeApplication {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 }
