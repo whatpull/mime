@@ -24,8 +24,8 @@ public class ParseDom {
      * Parse Document Function
      * TODO [이연수]메타데이터 조회 필요
      *
-     * @param url
-     * @return title
+     * @param url Document Connection URL
+     * @return 관련 Link URL 목록
      * @throws Exception
      */
     public static Queue<String> parseDom(String url) throws Exception {

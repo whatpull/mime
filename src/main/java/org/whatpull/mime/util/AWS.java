@@ -6,11 +6,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
-import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
-import com.amazonaws.services.dynamodbv2.document.spec.QuerySpec;
-import com.amazonaws.services.dynamodbv2.document.utils.ValueMap;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -38,7 +35,7 @@ public class AWS {
     }
 
     /**
-     * Link URL 입력
+     * [Link]URL 입력(Create)
      * @param link URL
      */
     public static void insertLink(String link) {
@@ -49,8 +46,8 @@ public class AWS {
     }
 
     /**
-     *
-     * @return
+     * [Link]URL 조회(Read)
+     * @return 관련 Link URL 목록
      */
     public static Queue<String> selectLink() {
         Table table = dynamoDB.getTable("LINK");

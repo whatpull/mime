@@ -10,6 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Scheduled Annotation Actor
+ * 스케줄 어노테이션 생성자
  * Created by yeonsu on 2017-01-31
  * since 2017-01-31
  */

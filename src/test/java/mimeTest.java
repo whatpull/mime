@@ -21,7 +21,6 @@ public class mimeTest {
     @Test
     @Scheduled
     public void mime() throws Exception {
-        name = ParseDom.parseDom();
         System.out.println(name);
     }
 
