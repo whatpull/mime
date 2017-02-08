@@ -4,7 +4,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.whatpull.mime.scheduled.ScheduledJob;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -29,13 +28,15 @@ public class ParseDom {
      * @throws Exception
      */
     public static Queue<String> parseDom(String url) throws Exception {
-        String regex = "^(https?):\\/\\/([^:\\/\\s]+)(:([^\\/]*))?((\\/[^\\s/\\/]+)*)?\\/?([^#\\s\\?]*)(\\?([^#\\s]*))?(#(\\w*))?$";
+        // TODO. URL 규칙찾기(NORMAL)
+//        String regex = "^(https?):\\/\\/([^:\\/\\s]+)(:([^\\/]*))?((\\/[^\\s/\\/]+)*)?\\/?([^#\\s\\?]*)(\\?([^#\\s]*))?(#(\\w*))?$";
+        String regex = "^(((http(s?))\\:\\/\\/)?)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/\\S*)?$";
 
         document = Jsoup.connect(url).get();
         Elements links = document.select("a[href]");
         Queue<String> link = new LinkedList<String>();
         for(Element e : links) {
-            if(e.attr("href").matches(regex) && e.attr("href").contains(ScheduledJob.seeds)) {
+            if(e.attr("href").matches(regex)) {
                 link.add(e.attr("href").toString());
             }
         }

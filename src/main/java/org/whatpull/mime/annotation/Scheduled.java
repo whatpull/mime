@@ -4,6 +4,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Scheduled Annotation
@@ -14,5 +15,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Scheduled {
-    int period() default 60;    //  주기(분)
+
+    TimeUnit unit() default TimeUnit.SECONDS;           // 단위
+    int period() default 60;                            // 주기
+    String seeds() default "http://www.google.com";     // 서치 URL
+
 }

@@ -1,10 +1,8 @@
 package org.whatpull.mime.annotation;
 
-import org.whatpull.mime.scheduled.ScheduledJob;
-import org.whatpull.mime.util.AWS;
+import org.whatpull.mime.job.CrawlingLinkDataJob;
 
 import java.lang.reflect.Method;
-import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -16,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ScheduledAnnotator {
 
-    private final static int INITIAL_DELAY = 10;                 // 지연시간(분)
+    private final static int INITIAL_DELAY = 0;                 // 초기지연시간
     private static ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
     public static void setScheduled(Class<?> clazz) throws NoSuchMethodException {
@@ -25,12 +23,22 @@ public class ScheduledAnnotator {
         for(Method method : methods) {
             if(method.isAnnotationPresent(Scheduled.class)) {
                 Scheduled scheduled = method.getAnnotation(Scheduled.class);
+                TimeUnit unit = scheduled.unit();
                 int period = scheduled.period();
+                String seeds = scheduled.seeds();
+
                 if(scheduledThreadPoolExecutor == null) {
-                    scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+                    scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(2);
                 }
-                ScheduledJob job = new ScheduledJob(scheduledThreadPoolExecutor, null);
-                scheduledThreadPoolExecutor.scheduleWithFixedDelay(job, INITIAL_DELAY, period, TimeUnit.SECONDS);
+
+                // Step1. 링크 크롤링
+                CrawlingLinkDataJob linkDataJob = new CrawlingLinkDataJob(scheduledThreadPoolExecutor, seeds);
+                scheduledThreadPoolExecutor.scheduleWithFixedDelay(linkDataJob, INITIAL_DELAY, period, unit);
+
+                // Step2. 메타 크롤링
+
+
+
             }
         }
     }

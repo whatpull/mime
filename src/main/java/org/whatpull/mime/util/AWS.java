@@ -6,9 +6,14 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
+import com.amazonaws.services.dynamodbv2.document.ScanFilter;
 import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 
+import org.whatpull.mime.job.CrawlingLinkDataJob;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -21,8 +26,7 @@ import java.util.Queue;
  */
 public class AWS {
 
-    private static final String TABLE_NAME = "LINK";
-
+    private static final String LINK_TABLE_NAME = "LINK";
     private static DynamoDB dynamoDB = null;
 
     /**
@@ -39,9 +43,12 @@ public class AWS {
      * @param link URL
      */
     public static void insertLink(String link) {
-        Table table = dynamoDB.getTable("LINK");
+        Table table = dynamoDB.getTable(LINK_TABLE_NAME);
         Item item = new Item();
-        item.withPrimaryKey("Link", link);
+        item.withPrimaryKey("link", link);
+        item.withString("seeds", CrawlingLinkDataJob.seeds);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        item.withString("date", sdf.format(new Date()));
         table.putItem(item);
     }
 
@@ -50,16 +57,17 @@ public class AWS {
      * @return 관련 Link URL 목록
      */
     public static Queue<String> selectLink() {
-        Table table = dynamoDB.getTable("LINK");
+        Table table = dynamoDB.getTable(LINK_TABLE_NAME);
 
-        ItemCollection<ScanOutcome> items = table.scan();
+        ScanFilter filter = new ScanFilter("seeds").eq(CrawlingLinkDataJob.seeds);
+        ItemCollection<ScanOutcome> items = table.scan(filter);
         Iterator<Item> iterator = items.iterator();
 
         Item item;
         Queue<String> queue = new LinkedList<String>();
         while (iterator.hasNext()) {
             item = iterator.next();
-            queue.add(item.getString("Link"));
+            queue.add(item.getString("link"));
         }
         return queue;
     }
