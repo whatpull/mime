@@ -4,6 +4,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.whatpull.mime.scheduled.ScheduledJob;
+
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  * Parse Document Web Page
@@ -24,17 +28,17 @@ public class ParseDom {
      * @return title
      * @throws Exception
      */
-    public static String parseDom(String url) throws Exception {
+    public static Queue<String> parseDom(String url) throws Exception {
         String regex = "^(https?):\\/\\/([^:\\/\\s]+)(:([^\\/]*))?((\\/[^\\s/\\/]+)*)?\\/?([^#\\s\\?]*)(\\?([^#\\s]*))?(#(\\w*))?$";
 
         document = Jsoup.connect(url).get();
-        String title = document.title();
         Elements links = document.select("a[href]");
+        Queue<String> link = new LinkedList<String>();
         for(Element e : links) {
-            if(e.attr("href").matches(regex)) {
-                System.out.println("link : " + e.attr("href").toString());
+            if(e.attr("href").matches(regex) && e.attr("href").contains(ScheduledJob.seeds)) {
+                link.add(e.attr("href").toString());
             }
         }
-        return title;
+        return link;
     }
 }

@@ -1,9 +1,12 @@
 package org.whatpull.mime.scheduled;
 
 import org.apache.commons.lang3.StringUtils;
+import org.whatpull.mime.annotation.ScheduledAnnotator;
+import org.whatpull.mime.util.AWS;
 import org.whatpull.mime.util.ParseDom;
 
 import java.util.Date;
+import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
@@ -16,7 +19,7 @@ public class ScheduledJob implements Runnable {
 
     // 병렬처리 재사용(cache)
     private static ScheduledThreadPoolExecutor executor;
-    private String seeds = "http://www.instarwaz.com" ;
+    public static String seeds = "http://www.naver.com" ;
 
     // 생성자
     public ScheduledJob(ScheduledThreadPoolExecutor executor, String seeds) {
@@ -30,10 +33,27 @@ public class ScheduledJob implements Runnable {
 
     public void run() {
         try {
-            ParseDom.parseDom(seeds);
+            // 더이상 접근가능한 LINK 가 없는 경우 Stop
+            Queue<String> queue = AWS.selectLink();
+            if(queue.size() > 0) {
+                for (String seeds : queue) {
+                    Queue<String> dom = ParseDom.parseDom(seeds);
+                    for(String link : dom) {
+                        System.out.println(link);
+                        AWS.insertLink(link);
+                    }
+                }
+            } else {
+                Queue<String> dom = ParseDom.parseDom(seeds);
+                for(String link : dom) {
+                    System.out.println(link);
+                    AWS.insertLink(link);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             executor.shutdown();
+        } finally {
         }
     }
 }

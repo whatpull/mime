@@ -19,15 +19,14 @@ public class MimeApplication {
      * @param args 파라미터
      */
     public static void main(String[] args) {
+        // AWS 연결
+        AWS.configDynamoDB();
         try {
             Set<Class<?>> classes = Scanner.getClasses(PACKAGE, Daemon.class);
             for(Class clazz : classes) {
                 // 스케줄 어노테이션 셋팅
                 ScheduledAnnotator.setScheduled(clazz);
             }
-
-            AWS.DynamoDBInit();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

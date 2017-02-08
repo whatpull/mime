@@ -1,8 +1,10 @@
 package org.whatpull.mime.annotation;
 
 import org.whatpull.mime.scheduled.ScheduledJob;
+import org.whatpull.mime.util.AWS;
 
 import java.lang.reflect.Method;
+import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class ScheduledAnnotator {
 
     private final static int INITIAL_DELAY = 10;                 // 지연시간(분)
+    private static ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
 
     public static void setScheduled(Class<?> clazz) throws NoSuchMethodException {
         Method[] methods = clazz.getMethods();
@@ -22,7 +25,9 @@ public class ScheduledAnnotator {
             if(method.isAnnotationPresent(Scheduled.class)) {
                 Scheduled scheduled = method.getAnnotation(Scheduled.class);
                 int period = scheduled.period();
-                ScheduledThreadPoolExecutor scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+                if(scheduledThreadPoolExecutor == null) {
+                    scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
+                }
                 ScheduledJob job = new ScheduledJob(scheduledThreadPoolExecutor, null);
                 scheduledThreadPoolExecutor.scheduleWithFixedDelay(job, INITIAL_DELAY, period, TimeUnit.SECONDS);
             }
