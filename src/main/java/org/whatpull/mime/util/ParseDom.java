@@ -1,5 +1,6 @@
 package org.whatpull.mime.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,26 +21,47 @@ public class ParseDom {
 
     /**
      * 공통모듈을 이용하여 유틸을 작업하였습니다.
-     * Parse Document Function
-     * TODO [이연수]메타데이터 조회 필요
+     * Parse Document Get Link Data Function
      *
      * @param url Document Connection URL
      * @return 관련 Link URL 목록
      * @throws Exception
      */
-    public static Queue<String> parseDom(String url) throws Exception {
+    public static Queue<String> getLink(String url) throws Exception {
         // TODO. URL 규칙찾기(NORMAL)
 //        String regex = "^(https?):\\/\\/([^:\\/\\s]+)(:([^\\/]*))?((\\/[^\\s/\\/]+)*)?\\/?([^#\\s\\?]*)(\\?([^#\\s]*))?(#(\\w*))?$";
         String regex = "^(((http(s?))\\:\\/\\/)?)([0-9a-zA-Z\\-]+\\.)+[a-zA-Z]{2,6}(\\:[0-9]+)?(\\/\\S*)?$";
 
         document = Jsoup.connect(url).get();
-        Elements links = document.select("a[href]");
+        Elements elements = document.select("a[href]");
         Queue<String> link = new LinkedList<String>();
-        for(Element e : links) {
-            if(e.attr("href").matches(regex)) {
-                link.add(e.attr("href").toString());
+        for(Element element : elements) {
+            if(element.attr("href").matches(regex)) {
+                link.add(element.attr("href").toString());
             }
         }
         return link;
+    }
+
+    /**
+     * 공통모듈을 이용하여 유틸을 작업하였습니다.
+     * Parse Document Get Meta Data Function
+     *
+     * @param url Document Connection URL
+     * @return 관련 Meta Content 목록
+     * @throws Exception
+     */
+    public static Queue<String> getMeta(String url) throws Exception {
+        if(StringUtils.isNoneBlank(url)) {
+            document = Jsoup.connect(url).ignoreContentType(true).get();
+            Elements elements = document.select("meta[name=description]");
+            Queue<String> meta = new LinkedList<String>();
+            for(Element element : elements) {
+                meta.add(element.attr("content").toString());
+            }
+            return meta;
+        } else {
+            return new LinkedList<String>();
+        }
     }
 }
