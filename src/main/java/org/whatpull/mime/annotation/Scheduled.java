@@ -19,5 +19,6 @@ public @interface Scheduled {
     TimeUnit unit() default TimeUnit.SECONDS;           // 단위
     int period() default 60;                            // 주기
     String seeds() default "http://www.google.com";     // 서치 URL
+    int depth() default 0;                              // 반복
 
 }

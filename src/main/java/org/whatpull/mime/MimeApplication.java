@@ -8,7 +8,7 @@ import org.whatpull.mime.util.Scanner;
 import java.util.Set;
 
 /**
- * Created by user on 2017-02-01.
+ * Created by yeonsu on 2017-02-01.
  */
 public class MimeApplication {
 

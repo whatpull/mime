@@ -5,7 +5,10 @@ import org.whatpull.mime.annotation.ScheduledAnnotator;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
+ * Scheduled Shutdown Task Job
+ * 모든 Job이 종료되면, 최종 스레드를 shutdown(종료) 합니다.
  * Created by yeonsu on 2017-02-09.
+ * since 2017-02-09
  */
 public class ScheduledShutdownJob implements Runnable {
 

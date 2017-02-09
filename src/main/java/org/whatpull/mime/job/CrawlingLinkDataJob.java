@@ -19,20 +19,25 @@ public class CrawlingLinkDataJob implements Runnable {
     // THREAD CONTROL
     private static ScheduledThreadPoolExecutor executor;
     public static String seeds;
+    private static int depth;
 
     // CONSTRUCTOR
-    public CrawlingLinkDataJob(ScheduledThreadPoolExecutor executor, String seeds) {
+    public CrawlingLinkDataJob(ScheduledThreadPoolExecutor executor, String seeds, int depth) {
         if(this.executor == null) {
             this.executor = executor;
         }
         if(StringUtils.isNoneBlank(seeds)) {
             this.seeds = seeds;
         }
+        if(depth > 0) {
+            this.depth = depth;
+        }
     }
 
     public void run() {
         try {
             // TODO depth query need.
+            // dom tree check(next val)
             Queue<String> dom = ParseDom.getLink(this.seeds);
             for(String link : dom) {
                 System.out.println(link);
@@ -42,8 +47,12 @@ public class CrawlingLinkDataJob implements Runnable {
             e.printStackTrace();
             executor.shutdownNow();
         } finally {
-            System.out.println("[STOP THREAD] ONE TIME CRAWLING LINK");
-            ScheduledAnnotator.link.cancel(false);
+            if(this.depth == 0) {
+                System.out.println("[STOP THREAD] ONE TIME CRAWLING LINK");
+                ScheduledAnnotator.link.cancel(false);
+            } else {
+                this.depth--;
+            }
         }
     }
 }

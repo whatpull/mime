@@ -6,7 +6,7 @@ import org.whatpull.mime.annotation.Scheduled;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by user on 2017-02-01.
+ * Created by yeonsu on 2017-02-01.
  */
 @Daemon
 public class TestAnnotation {
@@ -14,7 +14,7 @@ public class TestAnnotation {
     /**
      * 예제입니다.
      */
-    @Scheduled(unit = TimeUnit.SECONDS, period = 5, seeds = "http://ohou.se")
+    @Scheduled(unit = TimeUnit.SECONDS, period = 5, seeds = "http://ohou.se", depth = 1)
     public void mime() {
 
     }

@@ -32,15 +32,15 @@ public class ScheduledAnnotator {
                 TimeUnit unit = scheduled.unit();
                 int period = scheduled.period();
                 String seeds = scheduled.seeds();
+                int depth = scheduled.depth();
 
                 // TODO method parameter selecting
-
                 if(scheduledThreadPoolExecutor == null) {
                     scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1, new ThreadPoolExecutor.DiscardOldestPolicy());
                 }
 
                 // Step1. 링크 크롤링
-                CrawlingLinkDataJob linkDataJob = new CrawlingLinkDataJob(scheduledThreadPoolExecutor, seeds);
+                CrawlingLinkDataJob linkDataJob = new CrawlingLinkDataJob(scheduledThreadPoolExecutor, seeds, depth);
                 link = scheduledThreadPoolExecutor.scheduleWithFixedDelay(linkDataJob, INITIAL_DELAY, period, unit);
 
                 // Step2. 메타 크롤링
