@@ -5,6 +5,8 @@ import org.whatpull.mime.job.CrawlingMetaDataJob;
 import org.whatpull.mime.job.ScheduledShutdownJob;
 
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -22,6 +24,7 @@ public class ScheduledAnnotator {
     private static ScheduledThreadPoolExecutor scheduledThreadPoolExecutor;
     public static ScheduledFuture<?> link;
     public static ScheduledFuture<?> meta;
+    public static String seeds;
 
     public static void setScheduled(Class<?> clazz) throws NoSuchMethodException {
         Method[] methods = clazz.getMethods();
@@ -31,16 +34,20 @@ public class ScheduledAnnotator {
                 Scheduled scheduled = method.getAnnotation(Scheduled.class);
                 TimeUnit unit = scheduled.unit();
                 int period = scheduled.period();
-                String seeds = scheduled.seeds();
                 int depth = scheduled.depth();
+                seeds = scheduled.seeds();
 
                 // TODO method parameter selecting
                 if(scheduledThreadPoolExecutor == null) {
                     scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1, new ThreadPoolExecutor.DiscardOldestPolicy());
                 }
 
+                // 큐를 생성합니다.
+                Queue<String> queue = new LinkedList<String>();
+                queue.add(seeds);
+
                 // Step1. 링크 크롤링
-                CrawlingLinkDataJob linkDataJob = new CrawlingLinkDataJob(scheduledThreadPoolExecutor, seeds, depth);
+                CrawlingLinkDataJob linkDataJob = new CrawlingLinkDataJob(scheduledThreadPoolExecutor, queue, depth);
                 link = scheduledThreadPoolExecutor.scheduleWithFixedDelay(linkDataJob, INITIAL_DELAY, period, unit);
 
                 // Step2. 메타 크롤링

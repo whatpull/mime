@@ -13,6 +13,7 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 
+import org.whatpull.mime.annotation.ScheduledAnnotator;
 import org.whatpull.mime.job.CrawlingLinkDataJob;
 
 import java.text.SimpleDateFormat;
@@ -50,7 +51,7 @@ public class AWS {
         Table table = dynamoDB.getTable(LINK_TABLE_NAME);
         Item item = new Item();
         item.withPrimaryKey("link", link);
-        item.withString("seeds", CrawlingLinkDataJob.seeds);
+        item.withString("seeds", ScheduledAnnotator.seeds);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         item.withString("date", sdf.format(new Date()));
         table.putItem(item);
@@ -63,7 +64,7 @@ public class AWS {
     public static Queue<String> selectLink() {
         Table table = dynamoDB.getTable(LINK_TABLE_NAME);
 
-        ScanFilter filter = new ScanFilter("seeds").eq(CrawlingLinkDataJob.seeds);
+        ScanFilter filter = new ScanFilter("seeds").eq(ScheduledAnnotator.seeds);
         ItemCollection<ScanOutcome> items = table.scan(filter);
         Iterator<Item> iterator = items.iterator();
 
@@ -96,7 +97,7 @@ public class AWS {
         Item item = new Item();
         item.withPrimaryKey("meta", meta);
         item.withString("link", link);
-        item.withString("seeds", CrawlingLinkDataJob.seeds);
+        item.withString("seeds", ScheduledAnnotator.seeds);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         item.withString("date", sdf.format(new Date()));
         table.putItem(item);
