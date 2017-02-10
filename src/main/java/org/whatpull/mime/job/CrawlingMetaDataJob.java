@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.whatpull.mime.annotation.ScheduledAnnotator;
 import org.whatpull.mime.util.AWS;
 import org.whatpull.mime.util.ParseDom;
+import org.whatpull.mime.util.Split;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -45,9 +46,10 @@ public class CrawlingMetaDataJob implements Runnable {
                     } finally { // 무조건 실행합니다.
                         if(dom.size() > 0) {
                             for (String meta : dom) {
-                                System.out.println(meta);
+//                                System.out.println(meta);
                                 AWS.insertMeta(seeds, meta);
                                 AWS.deleteLink(seeds);
+                                Split.splitString(meta);
                             }
                         } else {
                             System.out.println("[DELETE LINK] NOT FOUND METADATA");
