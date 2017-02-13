@@ -1,5 +1,7 @@
 package org.whatpull.mime.util;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.regex.Matcher;
@@ -21,7 +23,10 @@ public class Split {
         Pattern pattern = Pattern.compile("\\b*[(가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9)]*\\b");
         Matcher matcher = pattern.matcher(meta);
         while (matcher.find()) {
-            System.out.println(matcher.group());
+            if(StringUtils.isNoneBlank(matcher.group())) {
+                System.out.println(matcher.group());
+                queue.add(matcher.group());
+            }
         }
         return queue;
     }

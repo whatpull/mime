@@ -8,6 +8,7 @@ import org.whatpull.mime.util.Scanner;
 import java.util.Set;
 
 /**
+ * 웹 크롤러 데몬 생성 완료
  * Created by yeonsu on 2017-02-01.
  */
 public class MimeApplication {

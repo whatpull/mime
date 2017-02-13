@@ -14,8 +14,8 @@ public class TestAnnotation {
     /**
      * 예제입니다.
      */
-    @Scheduled(unit = TimeUnit.SECONDS, period = 5, seeds = "http://ohou.se", depth = 1)
-    public void mime() {
+    @Scheduled(unit = TimeUnit.SECONDS, period = 5, seeds = "http://ohou.se", depth = 0)
+    public void mime(String seed, int depth) {
 
     }
 

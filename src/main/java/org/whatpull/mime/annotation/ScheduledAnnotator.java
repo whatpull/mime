@@ -5,6 +5,9 @@ import org.whatpull.mime.job.CrawlingMetaDataJob;
 import org.whatpull.mime.job.ScheduledShutdownJob;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ScheduledFuture;
@@ -32,6 +35,15 @@ public class ScheduledAnnotator {
         for(Method method : methods) {
             if(method.isAnnotationPresent(Scheduled.class)) {
                 Scheduled scheduled = method.getAnnotation(Scheduled.class);
+
+                Type[] types = method.getGenericParameterTypes();
+                for(int i = 0; i < types.length; i++) {
+                    if(types[i] instanceof ParameterizedType) {
+                        Type[] parameters = ((ParameterizedType)types[i]).getActualTypeArguments();
+                        System.out.print(parameters[0]);
+                    }
+                }
+
                 TimeUnit unit = scheduled.unit();
                 int period = scheduled.period();
                 int depth = scheduled.depth();

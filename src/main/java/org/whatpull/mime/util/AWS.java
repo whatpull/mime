@@ -13,13 +13,16 @@ import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.whatpull.mime.annotation.ScheduledAnnotator;
 import org.whatpull.mime.job.CrawlingLinkDataJob;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -32,6 +35,7 @@ public class AWS {
 
     private static final String LINK_TABLE_NAME = "LINK";
     private static final String META_TABLE_NAME = "META";
+    private static final String INDEX_TABLE_NAME = "INDEX";
     private static DynamoDB dynamoDB = null;
 
     /**
@@ -95,13 +99,50 @@ public class AWS {
     public static void insertMeta(String link, String meta) {
         Table table = dynamoDB.getTable(META_TABLE_NAME);
         Item item = new Item();
-        item.withPrimaryKey("meta", meta);
-        item.withString("link", link);
+        item.withPrimaryKey("link", link);
+        item.withString("meta", meta);
         item.withString("seeds", ScheduledAnnotator.seeds);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         item.withString("date", sdf.format(new Date()));
         table.putItem(item);
     }
 
-    // TODO INDEX LEVEL SAVE
+    /**
+     * [Index]Index 입력(Create)
+     * @param index 단어
+     * @param link 링크
+     */
+    public static void insertIndex(String index, String link) {
+        Table table = dynamoDB.getTable(INDEX_TABLE_NAME);
+        Item item = new Item();
+        item.withPrimaryKey("index", index);
+        List<String> list = new ArrayList<String>();
+        list.addAll(selectIndex(index));
+        if(list.indexOf(link) == -1) {
+            list.add(link);
+        }
+        item.withList("link", list);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        item.withString("date", sdf.format(new Date()));
+        table.putItem(item);
+    }
+
+    /**
+     * [Index]Index 조회(Read)
+     * @param index 단어
+     * @return Link 목록
+     */
+    public static List<String> selectIndex(String index) {
+        Table table = dynamoDB.getTable(INDEX_TABLE_NAME);
+        ScanFilter filter = new ScanFilter("index").eq(index);
+        ItemCollection<ScanOutcome> items = table.scan(filter);
+        Iterator<Item> iterator = items.iterator();
+        List<String> list = new ArrayList<String>();
+        Item item;
+        while (iterator.hasNext()) {
+            item = iterator.next();
+            list.addAll(item.<String>getList("link"));
+        }
+        return list;
+    }
 }

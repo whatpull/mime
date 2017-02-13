@@ -46,10 +46,12 @@ public class CrawlingMetaDataJob implements Runnable {
                     } finally { // 무조건 실행합니다.
                         if(dom.size() > 0) {
                             for (String meta : dom) {
-//                                System.out.println(meta);
                                 AWS.insertMeta(seeds, meta);
                                 AWS.deleteLink(seeds);
-                                Split.splitString(meta);
+                                Queue<String> words = Split.splitString(meta);
+                                for(String word : words) {
+                                    AWS.insertIndex(word, seeds);
+                                }
                             }
                         } else {
                             System.out.println("[DELETE LINK] NOT FOUND METADATA");
