@@ -2,12 +2,16 @@ package org.whatpull.mime;
 
 import org.whatpull.mime.annotation.Daemon;
 import org.whatpull.mime.annotation.ScheduledAnnotator;
+import org.whatpull.mime.util.AWS;
+import org.whatpull.mime.util.GUI;
+import org.whatpull.mime.util.Policy;
 import org.whatpull.mime.util.Scanner;
 
 import java.util.Set;
 
 /**
- * Created by user on 2017-02-01.
+ * 웹 크롤러 데몬 생성 완료
+ * Created by yeonsu on 2017-02-01.
  */
 public class MimeApplication {
 
@@ -18,16 +22,20 @@ public class MimeApplication {
      * @param args 파라미터
      */
     public static void main(String[] args) {
+        // AWS 연결
+        AWS.configDynamoDB();
+        // GUI 초기화
+        GUI.init();
         try {
-            Set<Class<?>> classes = Scanner.getClasses(PACKAGE, Daemon.class);
-            for(Class clazz : classes) {
-                // 스케줄 어노테이션 셋팅
-                ScheduledAnnotator.setScheduled(clazz);
-            }
+//            Set<Class<?>> classes = Scanner.getClasses(PACKAGE, Daemon.class);
+//            for(Class clazz : classes) {
+//                // 스케줄 어노테이션 셋팅
+//                ScheduledAnnotator.setScheduled(clazz);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
         }
-
     }
 
 }
