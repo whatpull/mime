@@ -1,13 +1,7 @@
 package org.whatpull.mime;
 
-import org.whatpull.mime.annotation.Daemon;
-import org.whatpull.mime.annotation.ScheduledAnnotator;
 import org.whatpull.mime.util.AWS;
-import org.whatpull.mime.util.GUI;
-import org.whatpull.mime.util.Policy;
-import org.whatpull.mime.util.Scanner;
-
-import java.util.Set;
+import org.whatpull.mime.gui.view.MainView;
 
 /**
  * 웹 크롤러 데몬 생성 완료
@@ -24,8 +18,8 @@ public class MimeApplication {
     public static void main(String[] args) {
         // AWS 연결
         AWS.configDynamoDB();
-        // GUI 초기화
-        GUI.init();
+        // MainView 초기화
+        MainView.init();
         try {
 //            Set<Class<?>> classes = Scanner.getClasses(PACKAGE, Daemon.class);
 //            for(Class clazz : classes) {
