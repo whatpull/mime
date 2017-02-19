@@ -1,14 +1,18 @@
 package org.whatpull.mime.gui.view;
 
+import org.whatpull.mime.gui.custom.TabCustom;
 import org.whatpull.mime.gui.event.MoveFrameEvent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 /**
  * 사용자 화면 유틸
@@ -55,17 +59,20 @@ public class MainView {
         top.addMouseMotionListener(moveFrameEvent);
 
         // 02.TAB
-//        rowPanel.add(tab(), BorderLayout.CENTER);
+        rowPanel.add(tab(), BorderLayout.CENTER);
         return rowPanel;
     }
 
     // TAB SETTING
     private static JTabbedPane tab() {
         JTabbedPane tabbedPane = new JTabbedPane();
-
         JComponent tap1 = makeTextPanel("Panel #1");
-        tabbedPane.addTab("Tab 1", null, tap1,"Does nothing");
+        tabbedPane.addTab("AWS", null, tap1,"Does nothing");
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+        JComponent tab2 = makeTextPanel("Panel #2");
+        tabbedPane.addTab("CRAW", null, tab2, "Does nothing");
+        tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+        tabbedPane.setUI(new TabCustom());
 
         return tabbedPane;
     }
