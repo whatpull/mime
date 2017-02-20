@@ -7,12 +7,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 /**
  * 사용자 화면 유틸
@@ -47,7 +44,6 @@ public class MainView {
     // PULL SCREEN
     private static JPanel pull() {
         JPanel rowPanel = new JPanel();
-        Color color = new Color(67, 116, 217);
         rowPanel.setBackground(Color.WHITE);
         rowPanel.setLayout(new BorderLayout());
 
@@ -60,30 +56,51 @@ public class MainView {
 
         // 02.TAB
         rowPanel.add(tab(), BorderLayout.CENTER);
+
+
         return rowPanel;
     }
 
     // TAB SETTING
     private static JTabbedPane tab() {
-        JTabbedPane tabbedPane = new JTabbedPane();
-        JComponent tap1 = makeTextPanel("Panel #1");
-        tabbedPane.addTab("AWS", null, tap1,"Does nothing");
+        // 아이콘
+        Icon tabIcon01 = new ImageIcon(MainView.class.getResource("/image/main/icon01.png"));
+        Icon tabIcon02 = new ImageIcon(MainView.class.getResource("/image/main/icon02.png"));
+        JTabbedPane tabbedPane = new JTabbedPane() {
+            @Override
+            public Color getForegroundAt(int index) {
+                if(getSelectedIndex() == index) return new Color(0, 84, 255);
+                return Color.BLACK;
+            }
+        };
+
+        // 마우스 이벤트
+        JComponent tap1 = makePage01();
+        tabbedPane.addTab("STORAGE ACCESS", tabIcon01, tap1,"Does nothing");
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-        JComponent tab2 = makeTextPanel("Panel #2");
-        tabbedPane.addTab("CRAW", null, tab2, "Does nothing");
+        JComponent tab2 = makePage02();
+        tabbedPane.addTab("DATA BOX", tabIcon02, tab2, "Does nothing");
         tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
         tabbedPane.setUI(new TabCustom());
 
         return tabbedPane;
     }
 
-    // TAB Component SETTING
-    protected static JComponent makeTextPanel(String text) {
+    // FILE UPLOAD Component SETTING
+    protected static JComponent makePage01() {
         JPanel panel = new JPanel(false);
-        JLabel filler = new JLabel(text);
-        filler.setHorizontalAlignment(JLabel.CENTER);
-        panel.setLayout(new GridLayout(1, 1));
-        panel.add(filler);
+        panel.setLayout(new GridLayout(10, 1));
+        panel.setBackground(new Color(217, 229, 255));
+        panel.setBorder(BorderFactory.createMatteBorder(2, 0, 5, 0, new Color(49, 98, 199)));
+        return panel;
+    }
+
+    // INDEX LIST Component SETTING
+    protected static JComponent makePage02() {
+        JPanel panel = new JPanel(false);
+        panel.setLayout(new GridLayout(10, 1));
+        panel.setBackground(new Color(217, 229, 255));
+        panel.setBorder(BorderFactory.createMatteBorder(2, 0, 5, 0, new Color(49, 98, 199)));
         return panel;
     }
 
@@ -97,13 +114,13 @@ public class MainView {
         Dimension dimension = new Dimension();
         dimension.setSize(width, 30);
         topPanel.setPreferredSize(dimension);
-        topPanel.setBorder(new EmptyBorder(5,15,5,15));
+        topPanel.setBorder(new EmptyBorder(8,15,8,15));
 
         // 확인필요
         GridBagConstraints constraints = new GridBagConstraints();
 
         // 프로그램 이름
-        JLabel title = new JLabel("MIME", JLabel.LEFT);
+        final JLabel title = new JLabel("MIME", JLabel.LEFT);
         title.setFont(new Font(title.getName(), Font.BOLD, 14));
         title.setForeground(Color.WHITE);
         constraints.fill = GridBagConstraints.BOTH;
@@ -111,11 +128,31 @@ public class MainView {
         topPanel.add(title, constraints);
 
         // 종료버튼
-        JLabel close = new JLabel("X", JLabel.RIGHT);
+        final JLabel close = new JLabel("X", JLabel.RIGHT);
         close.setFont(new Font(title.getName(), Font.BOLD, 14));
         close.setForeground(Color.WHITE);
-        close.setMaximumSize(new Dimension(30,30));
+        close.setMinimumSize(new Dimension(30,20));
+        close.setMaximumSize(new Dimension(30,20));
+        close.setPreferredSize(new Dimension(30,20));
         close.addMouseListener(new MouseAdapter() {
+            Cursor cursor;
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                close.setForeground(new Color(234, 234, 234));
+                close.setFont(new Font(title.getName(), Font.BOLD, 16));
+                close.setCursor(cursor.getPredefinedCursor(cursor.HAND_CURSOR));
+                super.mouseEntered(e);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                close.setForeground(Color.WHITE);
+                close.setFont(new Font(title.getName(), Font.BOLD, 14));
+                close.setCursor(cursor.getDefaultCursor());
+                super.mouseExited(e);
+            }
+
             @Override
             public void mouseClicked(MouseEvent e) {
                 System.exit(0);

@@ -16,6 +16,7 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
     JComponent target;
     Point start_drag;
     Point start_loc;
+    Cursor cursor;
 
     public MoveFrameEvent(JComponent target) {
         this.target = target;
@@ -40,6 +41,7 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
     }
 
     public void mousePressed(MouseEvent e) {
+        target.setCursor(cursor.getDefaultCursor());
         this.start_drag = this.getScreenLocation(e);
         this.start_loc = this.getFrame(this.target).getLocation();
     }
@@ -53,10 +55,11 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
     }
 
     public void mouseExited(MouseEvent e) {
-
+        target.setCursor(cursor.getDefaultCursor());
     }
 
     public void mouseDragged(MouseEvent e) {
+        target.setCursor(cursor.getPredefinedCursor(cursor.MOVE_CURSOR));
         Point current = this.getScreenLocation(e);
         Point offset = new Point((int) current.getX() - (int) start_drag.getX(), (int) current.getY() - (int) start_drag.getY());
         JFrame frame = this.getFrame(target);

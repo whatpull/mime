@@ -72,14 +72,15 @@ public class TabCustom extends BasicTabbedPaneUI {
 
     @Override
     protected void paintFocusIndicator(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect, Rectangle textRect, boolean isSelected) {
-        /*if(tabPane.hasFocus() && isSelected) {
-            g.setColor(UIManager.getColor("ScrollBar.thumbShadow"));
-            g.drawPolygon(shape);
-        }*/
+        if(tabPane.hasFocus() && isSelected) {
+            // doing...
+        }
     }
 
     @Override
     protected Insets getContentBorderInsets(int tabPlacement) {
         return new Insets(0,0,0,0);
     }
+
+
 }
