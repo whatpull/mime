@@ -16,8 +16,6 @@ public class MimeApplication {
      * @param args 파라미터
      */
     public static void main(String[] args) {
-        // AWS 연결
-        AWS.configDynamoDB();
         // MainView 초기화
         MainView.init();
         try {

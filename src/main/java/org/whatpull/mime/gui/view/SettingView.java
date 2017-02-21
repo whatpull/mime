@@ -1,12 +1,20 @@
-package org.whatpull.mime.gui.custom;
+package org.whatpull.mime.gui.view;
+
+import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.TableCollection;
+import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
 
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.whatpull.mime.util.AWS;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -17,7 +25,7 @@ import javax.swing.border.LineBorder;
  * 커스텀 파일업로드
  * Created by yeonsu on 2017-02-21.
  */
-public class FileUploadCustom extends JPanel implements ActionListener {
+public class SettingView extends JPanel implements ActionListener {
 
     static private final String newline = "\n";
     JButton credentialButton, connectionButton;
@@ -27,11 +35,12 @@ public class FileUploadCustom extends JPanel implements ActionListener {
     /**
      * 생성자
      */
-    public FileUploadCustom() {
+    public SettingView() {
         super(new BorderLayout());
 
         log = new JTextArea(5, 20);
         log.setPreferredSize(new Dimension());
+        log.setLineWrap(true);
         log.setMargin(new Insets(5, 5, 5, 5));
         log.setBackground(Color.BLACK);
         log.setForeground(Color.WHITE);
@@ -79,7 +88,7 @@ public class FileUploadCustom extends JPanel implements ActionListener {
      */
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == credentialButton) {
-            int returnVal = fileChooser.showOpenDialog(FileUploadCustom.this);
+            int returnVal = fileChooser.showOpenDialog(SettingView.this);
 
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
@@ -91,7 +100,28 @@ public class FileUploadCustom extends JPanel implements ActionListener {
             }
             log.setCaretPosition(log.getDocument().getLength());
         } else if(e.getSource() == connectionButton) {
-
+            Map<String, Object> result = AWS.configDynamoDB();
+            if(ObjectUtils.anyNotNull(result)) {
+                try {
+                    TableCollection<ListTablesResult> tables = (TableCollection<ListTablesResult>) result.get("tables");
+                    if(ObjectUtils.anyNotNull(tables)) {
+                        Iterator<Table> iterator = tables.iterator();
+                        while (iterator.hasNext()) {
+                            Table table = iterator.next();
+                            log.append("Table : " + table.getTableName() + " - description[" + table.getDescription() + "]" + newline);
+                        }
+                    }
+                    String msg = (String) result.get("msg");
+                    if(StringUtils.isNoneBlank(msg)) {
+                        log.append(msg + newline);
+                    }
+                } catch (Exception exception) {
+                    AWS.shutdownDynamoDB();
+                    log.append(exception.getMessage() + newline);
+                }
+            } else {
+                log.append("AWS DynamoDB connection fail." + newline);
+            }
         }
     }
 
@@ -101,7 +131,7 @@ public class FileUploadCustom extends JPanel implements ActionListener {
      * @return ImageIcon 객체
      */
     protected  static ImageIcon createImageIcon(String path) {
-        java.net.URL imgURL = FileUploadCustom.class.getResource(path);
+        java.net.URL imgURL = SettingView.class.getResource(path);
         try {
             Image img = ImageIO.read(imgURL);
             img = img.getScaledInstance(40, 40, Image.SCALE_SMOOTH);

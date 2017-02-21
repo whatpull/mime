@@ -10,7 +10,9 @@ import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.ScanFilter;
 import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
+import com.amazonaws.services.dynamodbv2.document.TableCollection;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
+import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -20,9 +22,11 @@ import org.whatpull.mime.job.CrawlingLinkDataJob;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -39,11 +43,43 @@ public class AWS {
     private static DynamoDB dynamoDB = null;
 
     /**
-     * DynamoDB 생성자
+     * DynamoDB 연결시도
      */
-    public static void configDynamoDB() {
-        if(dynamoDB == null) {
-            dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withCredentials(new ProfileCredentialsProvider()).withRegion(Regions.AP_NORTHEAST_2).build());
+    public static Map<String, Object> configDynamoDB() {
+        Map<String, Object> result = new HashMap<String, Object>();
+        String msg = "";
+        boolean isReturn = true;
+        try {
+            if(dynamoDB == null) {
+                dynamoDB = new DynamoDB(AmazonDynamoDBClientBuilder.standard().withCredentials(new ProfileCredentialsProvider()).withRegion(Regions.AP_NORTHEAST_2).build());
+                msg = "AWS DynamoDB Success connecting.";
+            } else {
+                msg = "AWS DynamoDB Already connecting.";
+                isReturn = false;
+            }
+        } catch (Exception e) {
+            msg = e.getMessage();
+            isReturn = false;
+        } finally {
+            result.put("msg", msg);
+            if(isReturn) {
+                if(ObjectUtils.anyNotNull(dynamoDB)) {
+                    result.put("tables", dynamoDB.listTables());
+                } else {
+                    result.put("tables", null);
+                }
+            }
+            return result;
+        }
+    }
+
+    /**
+     * DynamoDB 연결해제
+     */
+    public static void shutdownDynamoDB() {
+        if(ObjectUtils.anyNotNull(dynamoDB)) {
+            dynamoDB.shutdown();
+            dynamoDB = null;
         }
     }
 

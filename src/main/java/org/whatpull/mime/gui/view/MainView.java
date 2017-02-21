@@ -1,9 +1,9 @@
 package org.whatpull.mime.gui.view;
 
 import org.apache.commons.lang3.ObjectUtils;
-import org.whatpull.mime.gui.custom.FileUploadCustom;
 import org.whatpull.mime.gui.custom.TabCustom;
 import org.whatpull.mime.gui.event.MoveFrameEvent;
+import org.whatpull.mime.util.AWS;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -108,8 +108,8 @@ public class MainView {
         panel.setLayout(new GridLayout(1, 1));
         panel.setBackground(new Color(217, 229, 255));
         panel.setBorder(BorderFactory.createMatteBorder(2, 0, 5, 0, new Color(49, 98, 199)));
-        FileUploadCustom fileUploadCustom = new FileUploadCustom();
-        panel.add(fileUploadCustom);
+        SettingView settingView = new SettingView();
+        panel.add(settingView);
         return panel;
     }
 
@@ -173,6 +173,7 @@ public class MainView {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                AWS.shutdownDynamoDB();
                 System.exit(0);
             }
         });
