@@ -1,6 +1,6 @@
 # mime<br/>
 java web crawling library<br/>
-(자바 웹 크롤링 모듈입니다.)
+(자바 웹 크롤링 니다.)
 ![mime](https://s3.ap-northeast-2.amazonaws.com/mime-application/mime-setting.PNG)
 <br/>
 
