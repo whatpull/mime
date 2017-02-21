@@ -38,7 +38,7 @@ public class SettingView extends JPanel implements ActionListener {
     public SettingView() {
         super(new BorderLayout());
 
-        log = new JTextArea(5, 20);
+        log = new JTextArea();
         log.setPreferredSize(new Dimension());
         log.setLineWrap(true);
         log.setMargin(new Insets(5, 5, 5, 5));
