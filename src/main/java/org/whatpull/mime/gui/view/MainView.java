@@ -1,5 +1,7 @@
 package org.whatpull.mime.gui.view;
 
+import org.apache.commons.lang3.ObjectUtils;
+import org.whatpull.mime.gui.custom.FileUploadCustom;
 import org.whatpull.mime.gui.custom.TabCustom;
 import org.whatpull.mime.gui.event.MoveFrameEvent;
 
@@ -7,7 +9,9 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -44,7 +48,7 @@ public class MainView {
     // PULL SCREEN
     private static JPanel pull() {
         JPanel rowPanel = new JPanel();
-        rowPanel.setBackground(Color.WHITE);
+        rowPanel.setBackground(new Color(49, 98, 199));
         rowPanel.setLayout(new BorderLayout());
 
         // 01.TOP
@@ -55,8 +59,9 @@ public class MainView {
         top.addMouseMotionListener(moveFrameEvent);
 
         // 02.TAB
-        rowPanel.add(tab(), BorderLayout.CENTER);
-
+        JTabbedPane tap = tab();
+        if(ObjectUtils.anyNotNull(tap))
+        rowPanel.add(tap, BorderLayout.CENTER);
 
         return rowPanel;
     }
@@ -64,34 +69,47 @@ public class MainView {
     // TAB SETTING
     private static JTabbedPane tab() {
         // 아이콘
-        Icon tabIcon01 = new ImageIcon(MainView.class.getResource("/image/main/icon01.png"));
-        Icon tabIcon02 = new ImageIcon(MainView.class.getResource("/image/main/icon02.png"));
-        JTabbedPane tabbedPane = new JTabbedPane() {
-            @Override
-            public Color getForegroundAt(int index) {
-                if(getSelectedIndex() == index) return new Color(0, 84, 255);
-                return Color.BLACK;
-            }
-        };
+        try {
+            Image img01 = ImageIO.read(MainView.class.getResource("/image/main/icon01.png"));
+            img01 = img01.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            Icon tabIcon01 = new ImageIcon(img01);
 
-        // 마우스 이벤트
-        JComponent tap1 = makePage01();
-        tabbedPane.addTab("STORAGE ACCESS", tabIcon01, tap1,"Does nothing");
-        tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-        JComponent tab2 = makePage02();
-        tabbedPane.addTab("DATA BOX", tabIcon02, tab2, "Does nothing");
-        tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
-        tabbedPane.setUI(new TabCustom());
+            Image img02 = ImageIO.read(MainView.class.getResource("/image/main/icon02.png"));
+            img02 = img02.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+            Icon tabIcon02 = new ImageIcon(img02);
 
-        return tabbedPane;
+            JTabbedPane tabbedPane = new JTabbedPane() {
+                @Override
+                public Color getForegroundAt(int index) {
+                    if(getSelectedIndex() == index) return Color.WHITE;
+                    return new Color(217, 229, 255);
+                }
+            };
+
+            // 마우스 이벤트
+            JComponent tap1 = makePage01();
+            tabbedPane.addTab("SETTING", tabIcon01, tap1,"Does nothing");
+            tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
+            JComponent tab2 = makePage02();
+            tabbedPane.addTab("MONITOR", tabIcon02, tab2, "Does nothing");
+            tabbedPane.setMnemonicAt(1, KeyEvent.VK_2);
+            tabbedPane.setUI(new TabCustom());
+
+            return tabbedPane;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     // FILE UPLOAD Component SETTING
     protected static JComponent makePage01() {
         JPanel panel = new JPanel(false);
-        panel.setLayout(new GridLayout(10, 1));
+        panel.setLayout(new GridLayout(1, 1));
         panel.setBackground(new Color(217, 229, 255));
         panel.setBorder(BorderFactory.createMatteBorder(2, 0, 5, 0, new Color(49, 98, 199)));
+        FileUploadCustom fileUploadCustom = new FileUploadCustom();
+        panel.add(fileUploadCustom);
         return panel;
     }
 
