@@ -7,6 +7,8 @@ import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.whatpull.mime.util.AWS;
+import org.whatpull.mime.util.Confirm;
+import org.whatpull.mime.util.CredentialsFile;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -92,9 +94,17 @@ public class SettingView extends JPanel implements ActionListener {
 
             if(returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
-                // TODO 선택파일 자동으로 저장(OS에 따라 경로 조정)
                 log.append("Opening : " + file.getName() + "." + newline);
 
+                // 확장자 필터(txt / 없는것)
+                if(Confirm.getOperatingSystemType() == Confirm.OSType.Windows) {
+                    String home = System.getProperty("user.home");
+                    StringBuilder sb = new StringBuilder(home);
+                    sb.append("\\.aws\\");
+                    CredentialsFile.createCredentials(file, sb.toString());
+                } else {
+
+                }
             } else {
                 log.append("Open command cancelled by user." + newline);
             }

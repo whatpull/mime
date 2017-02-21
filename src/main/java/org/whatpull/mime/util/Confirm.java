@@ -2,6 +2,7 @@ package org.whatpull.mime.util;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Locale;
 
 /**
  * Confirm Utils
@@ -10,6 +11,12 @@ import java.net.URL;
  * since 2017-01-31
  */
 public class Confirm {
+
+    public enum OSType {
+        Windows, MacOS, Linux, Other
+    }
+
+    protected static OSType detectedOS;
 
     /**
      * URL 접속가능 여부 확인
@@ -27,4 +34,26 @@ public class Confirm {
             return false;
         }
     }
+
+    /**
+     * 현재 OS 타입 확인
+     * @return
+     */
+    public static OSType getOperatingSystemType() {
+        if(detectedOS == null) {
+            String OS = System.getProperty("os.name", "generic").toLowerCase(Locale.ENGLISH);
+            if((OS.indexOf("mac") > 0) || (OS.indexOf("darwin") >= 0)) {
+                detectedOS = OSType.MacOS;
+            } else if(OS.indexOf("win") >= 0) {
+                detectedOS = OSType.Windows;
+            } else if(OS.indexOf("nux") >= 0) {
+                detectedOS = OSType.Linux;
+            } else {
+                detectedOS = OSType.Other;
+            }
+        }
+        return detectedOS;
+    }
+
+
 }
