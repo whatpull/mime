@@ -96,7 +96,7 @@ public class SettingView extends JPanel implements ActionListener {
                 File file = fileChooser.getSelectedFile();
                 log.append("Opening : " + file.getName() + "." + newline);
 
-                // 확장자 필터(txt / 없는것)
+                // 확장자 필터(.txt / 없는것)
                 if(Confirm.getOperatingSystemType() == Confirm.OSType.Windows) {
                     String home = System.getProperty("user.home");
                     StringBuilder sb = new StringBuilder(home);
