@@ -16,7 +16,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 /**
- * 사용자 화면 유틸
+ * 사용자 화면
  * Created by yeonsu on 2017-02-14.
  */
 public class MainView {

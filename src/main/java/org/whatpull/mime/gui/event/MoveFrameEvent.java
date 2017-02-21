@@ -18,6 +18,10 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
     Point start_loc;
     Cursor cursor;
 
+    /**
+     * 생성자
+     * @param target 타겟 컴포넌트
+     */
     public MoveFrameEvent(JComponent target) {
         this.target = target;
     }
@@ -36,9 +40,7 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
                 (int) (target_location.getY() + cursor.getY()));
     }
 
-    public void mouseClicked(MouseEvent e) {
-
-    }
+    public void mouseClicked(MouseEvent e) { }
 
     public void mousePressed(MouseEvent e) {
         target.setCursor(cursor.getDefaultCursor());
@@ -46,13 +48,9 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
         this.start_loc = this.getFrame(this.target).getLocation();
     }
 
-    public void mouseReleased(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) { }
 
-    }
-
-    public void mouseEntered(MouseEvent e) {
-
-    }
+    public void mouseEntered(MouseEvent e) { }
 
     public void mouseExited(MouseEvent e) {
         target.setCursor(cursor.getDefaultCursor());
@@ -67,7 +65,5 @@ public class MoveFrameEvent implements MouseListener, MouseMotionListener {
         frame.setLocation(new_location);
     }
 
-    public void mouseMoved(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) { }
 }

@@ -14,7 +14,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 /**
- * Created by user on 2017-02-21.
+ * 커스텀 파일업로드
+ * Created by yeonsu on 2017-02-21.
  */
 public class FileUploadCustom extends JPanel implements ActionListener {
 
@@ -23,6 +24,9 @@ public class FileUploadCustom extends JPanel implements ActionListener {
     JTextArea log;
     JFileChooser fileChooser;
 
+    /**
+     * 생성자
+     */
     public FileUploadCustom() {
         super(new BorderLayout());
 
