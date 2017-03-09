@@ -120,8 +120,17 @@ public class SettingView extends JPanel implements ActionListener {
                         Iterator<Table> iterator = tables.iterator();
                         while (iterator.hasNext()) {
                             Table table = iterator.next();
+                            if(AWS.LINK_TABLE_NAME.equals(table.getTableName())) {
+                                AWS.isLinkTableExist=true;
+                            } else if(AWS.META_TABLE_NAME.equals(table.getTableName())) {
+                                AWS.isMetaTableExist=true;
+                            } else if(AWS.INDEX_TABLE_NAME.equals(table.getTableName())) {
+                                AWS.isIndexTableExist=true;
+                            }
                             log.append("Table : " + table.getTableName() + " - description[" + table.getDescription() + "]" + newline);
                         }
+                        // 테이블 생성
+                        AWS.initTable(log);
                     }
                     String msg = (String) result.get("msg");
                     if(StringUtils.isNoneBlank(msg)) {

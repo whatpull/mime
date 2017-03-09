@@ -12,7 +12,12 @@ import com.amazonaws.services.dynamodbv2.document.ScanOutcome;
 import com.amazonaws.services.dynamodbv2.document.Table;
 import com.amazonaws.services.dynamodbv2.document.TableCollection;
 import com.amazonaws.services.dynamodbv2.document.spec.DeleteItemSpec;
+import com.amazonaws.services.dynamodbv2.model.AttributeDefinition;
+import com.amazonaws.services.dynamodbv2.model.KeySchemaElement;
+import com.amazonaws.services.dynamodbv2.model.KeyType;
 import com.amazonaws.services.dynamodbv2.model.ListTablesResult;
+import com.amazonaws.services.dynamodbv2.model.ProvisionedThroughput;
+import com.amazonaws.services.dynamodbv2.model.ScalarAttributeType;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -21,6 +26,7 @@ import org.whatpull.mime.job.CrawlingLinkDataJob;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,6 +34,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
+import javax.swing.*;
 
 /**
  * [유틸리티]AWS
@@ -37,9 +45,10 @@ import java.util.Queue;
  */
 public class AWS {
 
-    private static final String LINK_TABLE_NAME = "LINK";
-    private static final String META_TABLE_NAME = "META";
-    private static final String INDEX_TABLE_NAME = "INDEX";
+    public static final String LINK_TABLE_NAME = "LINK";
+    public static final String META_TABLE_NAME = "META";
+    public static final String INDEX_TABLE_NAME = "INDEX";
+    public static boolean isLinkTableExist=false, isIndexTableExist=false, isMetaTableExist=false;
     private static DynamoDB dynamoDB = null;
 
     /**
@@ -80,6 +89,43 @@ public class AWS {
         if(ObjectUtils.anyNotNull(dynamoDB)) {
             dynamoDB.shutdown();
             dynamoDB = null;
+        }
+    }
+
+    /**
+     * 테이블 초기화
+     * @param log 로그
+     */
+    public static void initTable(JTextArea log) {
+        if(isLinkTableExist == false) {
+            createTable(log, LINK_TABLE_NAME, "link");
+        }
+        if(isMetaTableExist==false) {
+            createTable(log, META_TABLE_NAME, "link");
+        }
+        if(isIndexTableExist==false) {
+            createTable(log, INDEX_TABLE_NAME, "index");
+        }
+    }
+
+    /**
+     * 테이블 생성
+     * @param log 로그
+     * @param tableName 테이블명
+     * @param partitionKey 구분키
+     */
+    private static void createTable(JTextArea log, String tableName, String partitionKey) {
+        try {
+            Table table = dynamoDB.createTable(tableName,
+                    Arrays.asList(
+                            new KeySchemaElement(partitionKey, KeyType.HASH)), //Partition key
+                    Arrays.asList(
+                            new AttributeDefinition(partitionKey, ScalarAttributeType.S)),
+                    new ProvisionedThroughput(1L, 1L));
+            table.waitForActive();
+            log.append("Success. Table status : " + table.getDescription().getTableStatus() + "\n");
+        } catch (Exception e) {
+            log.append("Unable to create table : " + e.getMessage() + "\n");
         }
     }
 
