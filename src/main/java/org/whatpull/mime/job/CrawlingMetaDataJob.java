@@ -11,10 +11,10 @@ import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- * Crawling Meta Data Task Job
- * 크롤링 메타 데이터 처리 구현
- * Created by yeonsu on 2017-02-08.
- * since 2017-02-08
+ * [작업]크롤링 메타 데이터 처리 구현
+ * [Project] mime
+ * [Package] org.whatpull.mime.job
+ * Created by yeonsu on 2017-03-10
  */
 public class CrawlingMetaDataJob implements Runnable {
 

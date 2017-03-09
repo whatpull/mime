@@ -6,7 +6,10 @@ import org.whatpull.mime.annotation.Scheduled;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by yeonsu on 2017-02-01.
+ * [실행]테스트
+ * [Project] mime
+ * [Package] org.whatpull.mime
+ * Created by yeonsu on 2017-03-10
  */
 @Daemon
 public class TestAnnotation {

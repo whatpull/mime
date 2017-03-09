@@ -8,7 +8,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by yeonsu on 2017-02-10.
+ * [유틸리티]구분
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class Split {
 

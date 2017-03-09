@@ -10,8 +10,10 @@ import java.util.Queue;
 import java.util.Scanner;
 
 /**
- * 표준 정책 유틸
- * Created by yeonsu on 2017-02-15.
+ * [유틸리티]표준 정책
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class Policy {
 

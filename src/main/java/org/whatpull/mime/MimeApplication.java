@@ -4,8 +4,10 @@ import org.whatpull.mime.util.AWS;
 import org.whatpull.mime.gui.view.MainView;
 
 /**
- * 웹 크롤러 데몬 생성 완료
- * Created by yeonsu on 2017-02-01.
+ * [실행]어플리케이션
+ * [Project] mime
+ * [Package] org.whatpull.mime
+ * Created by yeonsu on 2017-03-10
  */
 public class MimeApplication {
 

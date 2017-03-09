@@ -7,8 +7,10 @@ import javax.swing.*;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
 
 /**
- * 커스텀 탭
- * Created by yeonsu on 2017-02-19
+ * [GUI]커스텀 탭
+ * [Project] mime
+ * [Package] org.whatpull.mime.gui.custom
+ * Created by yeonsu on 2017-03-10
  */
 public class TabCustom extends BasicTabbedPaneUI {
 

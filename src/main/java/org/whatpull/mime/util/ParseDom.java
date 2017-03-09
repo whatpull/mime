@@ -10,10 +10,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Parse Document Web Page
- * 웹 HTML 문서 파싱 유틸 클래스
- * Created by yeonsu on 2017-01-31
- * since 2017-01-31
+ * [유틸리티]웹 HTML 문서 파싱
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class ParseDom {
 

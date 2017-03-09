@@ -24,8 +24,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 /**
- * 커스텀 파일업로드
- * Created by yeonsu on 2017-02-21.
+ * [GUI]커스텀 파일업로드
+ * [Project] mime
+ * [Package] org.whatpull.mime.gui.view
+ * Created by yeonsu on 2017-03-10
  */
 public class SettingView extends JPanel implements ActionListener {
 

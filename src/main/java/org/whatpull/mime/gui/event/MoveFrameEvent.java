@@ -8,8 +8,10 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.*;
 
 /**
- * 전체 프레임 이동 이벤트
- * Created by yeonsu on 2017-02-17.
+ * [GUI]전체 프레임 이동 이벤트
+ * [Project] mime
+ * [Package] org.whatpull.mime.gui.event
+ * Created by yeonsu on 2017-03-10
  */
 public class MoveFrameEvent implements MouseListener, MouseMotionListener {
 

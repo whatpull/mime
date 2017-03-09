@@ -5,7 +5,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 
 /**
- * Created by yeonsu on 2017-02-21.
+ * [유틸리티]인증처리
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class CredentialsFile {
 

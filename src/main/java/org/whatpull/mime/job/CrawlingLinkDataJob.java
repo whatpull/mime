@@ -14,10 +14,10 @@ import java.util.Queue;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 /**
- * Crawling Link Data Task Job
- * 크롤링 링크 데이터 처리 구현
- * Created by yeonsu on 2017-01-31.
- * since 2017-01-31
+ * [작업]크롤링 링크 데이터 처리 구현
+ * [Project] mime
+ * [Package] org.whatpull.mime.job
+ * Created by yeonsu on 2017-03-10
  */
 public class CrawlingLinkDataJob implements Runnable {
 

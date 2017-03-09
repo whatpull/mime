@@ -16,8 +16,10 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 /**
- * 사용자 화면
- * Created by yeonsu on 2017-02-14.
+ * [GUI]사용자 화면
+ * [Project] mime
+ * [Package] org.whatpull.mime.gui.view
+ * Created by yeonsu on 2017-03-10
  */
 public class MainView {
 

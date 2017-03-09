@@ -30,10 +30,10 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
- * AWS Settings
- * AWS 셋팅
- * Created by yeonsu on 2017-02-07.
- * since 2017-02-07
+ * [유틸리티]AWS
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class AWS {
 

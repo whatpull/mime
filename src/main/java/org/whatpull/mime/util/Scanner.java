@@ -6,10 +6,10 @@ import java.lang.annotation.Annotation;
 import java.util.Set;
 
 /**
- * Scanning Find Class
- * 스캐닝을 통해 클래스를 찾습니다.
- * Created by yeonsu on 2017-01-31
- * since 2017-01-31
+ * [유틸리티]스캐너
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class Scanner {
 

@@ -5,10 +5,10 @@ import java.net.URL;
 import java.util.Locale;
 
 /**
- * Confirm Utils
- * 확인을 위한 유틸리티
- * Created by yeonsu on 2017-01-31
- * since 2017-01-31
+ * [유틸리티]확인
+ * [Project] mime
+ * [Package] org.whatpull.mime.util
+ * Created by yeonsu on 2017-03-10
  */
 public class Confirm {
 

@@ -18,10 +18,10 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Scheduled Annotation Actor
- * 스케줄 어노테이션 생성자
- * Created by yeonsu on 2017-01-31
- * since 2017-01-31
+ * [어노테이션]스케줄 구현체
+ * [Project] mime
+ * [Package] org.whatpull.mime.annotation
+ * Created by yeonsu on 2017-03-10
  */
 public class ScheduledAnnotator {
 

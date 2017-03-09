@@ -6,10 +6,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Daemon Annotation
- * [Class]데몬 어노테이션
- * Created by yeonsu on 2017-01-31
- * since 2017-01-31
+ * [어노테이션]데몬
+ * [Project] mime
+ * [Package] org.whatpull.mime.annotation
+ * Created by yeonsu on 2017-03-10
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
